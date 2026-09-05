@@ -18,7 +18,7 @@
 
 | Provedor | Modelo padrão | Limite de áudio | Obter chave |
 |---|---|---|---|
-| Google Gemini | `gemini-2.5-flash` | 20 MB | [Google AI Studio](https://aistudio.google.com/apikey) (nível gratuito) |
+| Google Gemini | `gemini-3.6-flash` | 20 MB | [Google AI Studio](https://aistudio.google.com/apikey) (nível gratuito) |
 | OpenAI | `whisper-1` (idioma `pt`) | 25 MB | [Plataforma OpenAI](https://platform.openai.com/api-keys) (pago) |
 
 > A API pública da Anthropic não oferece transcrição de áudio; por isso o Echo suporta Google e OpenAI. A arquitetura (seletor de provedor + dispatcher) permite plugar novos provedores sem mudar a UI.

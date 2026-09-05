@@ -110,7 +110,7 @@ def resolve_key(provider, header_key):
 
 PORT = 8080
 OPENAI_MODEL = "whisper-1"  # OpenAI: barato e otimo para PT
-GEMINI_MODEL = "gemini-2.5-flash"  # Gemini: rapido, com nivel gratis
+GEMINI_MODEL = "gemini-3.6-flash"  # Gemini: rapido, com nivel gratis
 MAX_BYTES = {  # limite de audio por provedor
     "openai": 25 * 1024 * 1024,
     "gemini": 20 * 1024 * 1024,  # limite do Gemini p/ audio inline
