@@ -85,6 +85,10 @@ def save_store(provider, key):
     store["provider"] = provider
     with open(KEY_FILE, "w", encoding="utf-8") as f:
         json.dump(store, f)
+    try:
+        os.chmod(KEY_FILE, 0o600)  # leitura/escrita so p/ o dono (best-effort no Windows)
+    except OSError:
+        pass
 
 
 def delete_store():
@@ -239,6 +243,8 @@ $('btnSave').addEventListener('click', async () => {
 $('btnForget').addEventListener('click', async () => {
   await fetch('/api/key', { method: 'DELETE' });
   key.value = '';
+  localStorage.removeItem('echo_key_gemini');
+  localStorage.removeItem('echo_key_openai');
   localStorage.removeItem('echo_api_key');
   localStorage.removeItem('openai_key');
   status.textContent = 'Chaves apagadas.';
@@ -363,7 +369,8 @@ def transcribe_gemini(audio_bytes: bytes, mime_type: str, api_key: str) -> str:
                     "data": base64.b64encode(audio_bytes).decode("ascii"),
                 }},
             ]
-        }]
+        }],
+        "generationConfig": {"temperature": 0, "maxOutputTokens": 16384},
     }).encode("utf-8")
 
     req = urllib.request.Request(

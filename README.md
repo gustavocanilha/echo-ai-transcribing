@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![Platform](https://img.shields.io/badge/platform-windows-lightgrey)
 ![Deps](https://img.shields.io/badge/dependencies-zero-green)
-![License](https://img.shields.io/badge/license-a%20definir-yellow)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 > Aplicação local ultraleve para transcrição de arquivos de áudio (ex.: `.ogg` do WhatsApp) via APIs de IA. Sem build, sem dependências, sem banco de dados: um único `app.py` servindo UI + backend, com executável Windows de arquivo único (`echo.exe`).
 
@@ -52,6 +52,17 @@
 3. O navegador abre automaticamente em `http://127.0.0.1:8080`.
 
 > O `echo.exe` é autocontido (HTML da UI embutido no binário). O único arquivo auxiliar criado em runtime é o `.echo_key` (chave salva, ver §4).
+
+### Via PATH — uso diário (qualquer terminal)
+
+Para rodar digitando apenas `echo.exe`, sem navegar até a pasta:
+
+1. Copie o binário para uma pasta no `PATH` (ex.: `%USERPROFILE%\bin`, criando-a se necessário).
+2. Abra um **novo** terminal e digite:
+   ```bat
+   echo.exe
+   ```
+> Digite sempre com a extensão `.exe`: `echo` sozinho é comando interno do Windows. O `.echo_key` passa a ficar ao lado do exe (na pasta do `PATH`) — salve a chave uma vez via **"Salvar neste PC"**.
 
 ### Instalação manual (qualquer SO)
 
@@ -164,6 +175,7 @@ echo/
 ├── app.py          # Servidor HTTP (stdlib) + UI embutida + integração com a API de transcrição
 ├── build.bat       # Build do executável Windows de arquivo único (PyInstaller)
 ├── .gitignore      # Protege .echo_key, .env, dist/, build/, __pycache__/ etc.
+├── LICENSE         # Licença MIT
 └── README.md       # Este arquivo
 ```
 
@@ -188,4 +200,4 @@ python app.py   # sem dependências; apenas biblioteca padrão
 
 ## 9. Licença
 
-Repositório sem arquivo `LICENSE` no momento — recomenda-se adotar uma licença explícita (ex.: MIT) antes da distribuição pública.
+Distribuído sob a licença MIT — ver `LICENSE`.

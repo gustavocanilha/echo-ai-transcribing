@@ -1,5 +1,6 @@
 @echo off
 REM Gera echo.exe (arquivo unico, sem console extra escondido)
+cd /d "%~dp0"
 pip install pyinstaller
 python -m PyInstaller --onefile --name echo app.py
 echo.
