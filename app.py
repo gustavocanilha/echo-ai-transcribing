@@ -140,7 +140,7 @@ HTML = r"""<!DOCTYPE html>
   #btnGo:disabled { background: #999; cursor: wait; }
   #btnCopy { background: #eee; color: #111; display: none; }
   #status { font-size: 13px; color: #666; margin-top: 10px; min-height: 18px; }
-  #out { width: 100%; min-height: 160px; margin-top: 8px; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 8px; display: none; }
+  #out { width: 100%; min-height: 160px; margin-top: 8px; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 8px; display: none; resize: none; overflow: hidden; }
   .hint { font-size: 12px; color: #888; margin-top: 16px; }
   .privacy { font-size: 12px; color: #555; background: #f6f6f6; border-radius: 8px; padding: 8px 10px; margin-top: 12px; }
 </style>
@@ -189,13 +189,16 @@ const PROVIDERS = {
 };
 
 // provedor + chaves no navegador (uma chave por provedor)
+// a escolha explicita do usuario nunca e sobrescrita pelo servidor
+let userPickedProvider = !!localStorage.getItem('echo_provider');
 provSel.value = localStorage.getItem('echo_provider') || 'gemini';
 function browserKey(p) { return localStorage.getItem('echo_key_' + p) || ''; }
 function refreshKeyField() { key.value = browserKey(provSel.value); }
 provSel.addEventListener('change', () => {
   localStorage.setItem('echo_provider', provSel.value);
+  userPickedProvider = true;
   refreshKeyField();
-  refreshKeyHint();
+  updateKeyUI();
 });
 key.addEventListener('input', () => {
   localStorage.setItem('echo_key_' + provSel.value, key.value.trim());
@@ -215,7 +218,7 @@ function updateKeyUI() {
 function refreshKeyHint() {
   fetch('/api/has-key').then(r => r.json()).then(d => {
     serverStatus = d;
-    if (d.provider && PROVIDERS[d.provider]) {
+    if (!userPickedProvider && d.provider && PROVIDERS[d.provider]) {
       provSel.value = d.provider;
       localStorage.setItem('echo_provider', d.provider);
       refreshKeyField();
@@ -273,6 +276,8 @@ btnGo.addEventListener('click', async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || ('Erro ' + res.status));
     out.value = data.text || '';
+    out.style.height = 'auto';
+    out.style.height = out.scrollHeight + 'px';
     out.style.display = 'block';
     btnCopy.style.display = 'block';
     status.textContent = 'Pronto.';
